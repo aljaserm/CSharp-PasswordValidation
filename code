@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace Password_Validation
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+              
+
+        private void btnCheckPassword_Click(object sender, EventArgs e)
+        {
+           int count=0;
+           string password = string.Empty;
+           int size = 0, digitcount = 0, uppercount = 0, lowercount = 0, spiccount = 0;
+           password = txtPassword.Text;
+           size = password.Length;
+
+           for (count = 0; count < size; count++)
+           {
+               if (Char.IsUpper(password[count]))
+               {
+                   uppercount++;
+               }
+               else if (Char.IsLower(password[count]))
+               {
+                   lowercount++;
+               }
+               else if (Char.IsDigit(password[count]))
+               {
+                   digitcount++;
+               }
+               else
+               {
+                   spiccount++;
+               }
+            }
+
+           if (size < 8)
+           {lblStripStatus.Text=  "MUST Enter 8 CHARACHTERS";
+               return;
+
+           }
+
+            if((uppercount!=0)&&(lowercount!=0)&&(digitcount!=0)&&(spiccount!=0)&&(size>=8))
+            {
+                lblStripStatus.Text = "Password Valid";
+            }
+           
+            else if (uppercount == 0)
+            {
+                lblStripStatus.Text = "MUST Enter at LEAST 1 UPPERCASE";
+                return;
+            }
+            else if (lowercount == 0)
+            {
+                lblStripStatus.Text = "MUST Enter at LEAST 1 LOWERCASE";
+                return;
+            }
+            else if (digitcount == 0)
+            {
+                lblStripStatus.Text = "MUST Enter at LEAST 1 DIGIT";
+                return;
+            }
+            else if (spiccount == 0)
+            {
+                lblStripStatus.Text = "MUST Enter at LEAST 1 SPECIAL CHARACHTERS";
+                return;
+            }
+            
+        }
+
+        private void btnTryAgain_Click(object sender, EventArgs e)
+        {
+            txtPassword.Text = string.Empty;
+            lblStripStatus.Text = string.Empty;
+            txtPassword.SelectAll();
+            txtPassword.Focus();
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            // Close the form.
+
+            if (MessageBox.Show("Do you want to Exit?", "My Application",
+               MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+    }
+}
